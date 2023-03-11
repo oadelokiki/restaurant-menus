@@ -18,26 +18,61 @@ describe('Restaurant and Menu Models', () => {
 
     test('can create a Restaurant', async () => {
         // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+        let rest1 = await Restaurant.create({
+		name: "a",
+		location: "b",
+		cuisine: "c",
+	})
+	expect(rest1.name).toEqual('a')
+	expect(rest1.location).toEqual('b')
+	    expect(rest1.cuisine).toEqual('c')
+
     });
 
     test('can create a Menu', async () => {
         // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+	let menu1 = await Menu.create({
+		title: "a"
+	})
+        expect(menu1.title).toEqual('a')
     });
 
     test('can find Restaurants', async () => {
         // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+        let rest2 = await Restaurant.create({
+                name: "unique",
+                location: "b",
+                cuisine: "c",
+        })
+
+	let result = await Restaurant.findAll({
+                        name:'unique'
+            })
+
+	    expect(result.length).toBe(2);
+	    rest2.destroy();
     });
 
     test('can find Menus', async () => {
         // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+	
+	let result = await Menu.findAll({
+		title:"a"
+	})
+        expect(result.length).toEqual(1)
     });
 
     test('can delete Restaurants', async () => {
         // TODO - write test
-        expect('NO TEST').toEqual('EXPECTED DATA')
+	let rest1 = await Restaurant.create({
+                name: "a",
+                location: "b",
+                cuisine: "c",
+        })
+
+	    let end = await rest1.destroy();
+	let result = await Restaurant.findAll();
+	    console.log(result)
+        expect(result.length).toEqual(1)
     });
 })
