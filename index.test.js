@@ -1,5 +1,7 @@
 const {sequelize} = require('./db')
-const {Restaurant, Menu} = require('./models/index')
+const {Restaurant, Menu, Item} = require('./models/index')
+
+
 const {
     seedRestaurant,
     seedMenu,
@@ -75,4 +77,25 @@ describe('Restaurant and Menu Models', () => {
 	    console.log(result)
         expect(result.length).toEqual(1)
     });
+	
+	test(('association bewteen menu and item'), async () => {
+		let before = await Menu.findAll({include: Item});
+		console.log("before: " +before.length);
+		const testMenu = await Menu.create({
+			title: "a la carte",
+			Items: [{
+				name: "crepe",
+				image: "crepe.jpeg",
+				price: 3.50,
+				vegetarian: true
+
+			}]
+		})
+
+		let after = await Menu.findAll({include: Item});
+
+		console.log("after: " + after.length);
+		
+		expect(before.length < after.length).toBe(true);
+	})	
 })
